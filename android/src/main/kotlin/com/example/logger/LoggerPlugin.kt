@@ -14,33 +14,32 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 
 class LoggerLifecycleCallbacks(): Application.ActivityLifecycleCallbacks {
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        Log.d(LoggerPlugin.TAG, "xx------------onActivityCreated")
+        // Log.d(LoggerPlugin.TAG, "xx------------onActivityCreated")
     }
 
     override fun onActivityStarted(activity: Activity) {
-        Log.d(LoggerPlugin.TAG, "xx------------onActivityStarted")
+        // Log.d(LoggerPlugin.TAG, "xx------------onActivityStarted")
     }
 
     override fun onActivityResumed(activity: Activity) {
-        Log.d(LoggerPlugin.TAG, "xx------------onActivityResumed")
+        // Log.d(LoggerPlugin.TAG, "xx------------onActivityResumed")
     }
 
     override fun onActivityPaused(activity: Activity) {
-        Log.d(LoggerPlugin.TAG, "xx------------onActivityPaused")
+        // Log.d(LoggerPlugin.TAG, "xx------------onActivityPaused")
         com.tencent.mars.xlog.Log.appenderFlushSync(true)
     }
 
     override fun onActivityStopped(activity: Activity) {
-        Log.d(LoggerPlugin.TAG, "xx------------onActivityStopped")
-        com.tencent.mars.xlog.Log.appenderFlushSync(true)
+        // Log.d(LoggerPlugin.TAG, "xx------------onActivityStopped")
     }
 
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-        Log.d(LoggerPlugin.TAG, "xx------------onActivitySaveInstanceState")
+        // Log.d(LoggerPlugin.TAG, "xx------------onActivitySaveInstanceState")
     }
 
     override fun onActivityDestroyed(activity: Activity) {
-        Log.d(LoggerPlugin.TAG, "xx------------onActivityDestroyed")
+        // Log.d(LoggerPlugin.TAG, "xx------------onActivityDestroyed")
         com.tencent.mars.xlog.Log.appenderFlushSync(true)
         com.tencent.mars.xlog.Log.appenderClose()
     }
@@ -58,12 +57,12 @@ class LoggerPlugin() : FlutterPlugin, MethodCallHandler {
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
 
-        Log.d(TAG, "xx------------onAttachedToEngine")
+        // Log.d(TAG, "xx------------onAttachedToEngine")
 
         lifeCallback = LoggerLifecycleCallbacks()
         // setup xlog
         val logDir = flutterPluginBinding.applicationContext.getExternalFilesDir("logs")!!.path
-        Log.d(TAG, "xx------------log path-$logDir")
+        // Log.d(TAG, "xx------------log path-$logDir")
         if (BuildConfig.DEBUG) {
             Xlog.open(true, Xlog.LEVEL_DEBUG, Xlog.AppednerModeAsync, "", logDir, "GS", "")
             com.tencent.mars.xlog.Log.setConsoleLogOpen(true)
@@ -83,8 +82,6 @@ class LoggerPlugin() : FlutterPlugin, MethodCallHandler {
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         when (call.method) {
             X_LOG -> {
-                println("------------------------------------${call.argument<String>("msg")!!}")
-
                 if (call.argument<Int>("type") == 4) { // err
                     com.tencent.mars.xlog.Log.e(TAG, call.argument<String>("msg")!!)
                 } else {
@@ -98,7 +95,7 @@ class LoggerPlugin() : FlutterPlugin, MethodCallHandler {
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
-        Log.d(TAG, "xx------------onDetachedFromEngine")
+        // Log.d(TAG, "xx------------onDetachedFromEngine")
         channel.setMethodCallHandler(null)
         val app = binding.applicationContext as Application
         app.unregisterActivityLifecycleCallbacks(lifeCallback)
