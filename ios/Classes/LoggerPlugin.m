@@ -10,9 +10,7 @@ static NSString *const CHANNEL_NAME = @"com.gaussian.gsbot/log";
     if (self) {
         
         [XLog startWithPath:@"/logs"];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationDidEnterBackgroundNotification object:nil];
-        
+                
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate) name:UIApplicationWillTerminateNotification object:nil];
     }
     return self;
@@ -20,10 +18,6 @@ static NSString *const CHANNEL_NAME = @"com.gaussian.gsbot/log";
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)appDidEnterBackground {
-    [XLog flush];
 }
 
 - (void)appWillTerminate {
@@ -46,6 +40,7 @@ static NSString *const CHANNEL_NAME = @"com.gaussian.gsbot/log";
         NSString *msg = [self checkArgument:call.arguments forKey:@"msg" ofType:[NSString class]];
         
         [XLog logWithLevel:(XloggerType)type.intValue message:msg];
+        [XLog flush];
         
     } else {
         result(FlutterMethodNotImplemented);
