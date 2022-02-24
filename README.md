@@ -4,7 +4,8 @@
 
 
 ```dart
-runApplication(() => runApp(MainApp()), null, null);
+XLog.i("log");
+XLog.e(err);
 ```
 
 参考：
