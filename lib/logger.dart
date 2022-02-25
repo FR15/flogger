@@ -1,11 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/services.dart';
 import 'dart:io' if (dart.library.html) 'dart:html';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 
 class XLog {
   static const MethodChannel _channel = const MethodChannel('com.gaussian.gsbot/log');
@@ -28,6 +24,10 @@ class XLog {
 
   static void e(Object? object) {
     _log(4, object);
+  }
+
+  static void d(Object? object) {
+    debugPrint(object.toString());
   }
 }
 
