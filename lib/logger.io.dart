@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:developer';
+import 'dart:math';
+
 import 'package:flutter/services.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'dart:developer' as LOG;
 
 class XLog {
   static const MethodChannel _channel = const MethodChannel('com.gaussian.gsbot/log');
@@ -10,8 +15,8 @@ class XLog {
       if (Platform.isIOS || Platform.isAndroid) {
           _channel.invokeMethod('xlog', <String, dynamic>{'type': type, 'msg': object.toString()});
         }
-    } else {
-      debugPrint(object.toString());
+    } else {      
+      LOG.log( object is Map ? json.encode(object) : object.toString());
     }
   }
 
